@@ -4,11 +4,16 @@ import com.example.feign.demo.model.Person;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class PersonRepository {
 
-    public Optional<Person> findByName(String name) {
+    public Set<Person> findByName(String name) {
         return PersonRepositoryHelper.getInstance().findByName(name);
+    }
+
+    public Optional<Person> findById(Long id) {
+        return Optional.ofNullable(PersonRepositoryHelper.getInstance().findById(id));
     }
 }

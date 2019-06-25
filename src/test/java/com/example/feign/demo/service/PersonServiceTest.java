@@ -7,9 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.util.collections.Sets;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -29,16 +32,16 @@ public class PersonServiceTest {
         //given
         String name = "Melek";
 
-        Person melek = new Person("Melek", "Tamtürk");
-        when(personRepository.findByName(name)).thenReturn(Optional.of(melek));
+        Person person1 = new Person(name, "surname-1");
+        Person person2 = new Person(name,"surname-2");
+        when(personRepository.findByName(name)).thenReturn(Sets.newSet(person1, person2));
 
         //when
-        Person person = personService.findByName(name);
+        Set<Person> actualPersons = personService.findByName(name);
 
         //then
         verify(personRepository).findByName(name);
-        assertThat(person.getName()).isEqualTo("Melek");
-        assertThat(person.getSurname()).isEqualTo("Tamtürk");
+        assertThat(actualPersons).containsExactlyInAnyOrder(person1, person2);
     }
 
     @Test
@@ -46,7 +49,7 @@ public class PersonServiceTest {
         //given
         String name = "Irem";
 
-        when(personRepository.findByName(name)).thenReturn(Optional.empty());
+        when(personRepository.findByName(name)).thenReturn(new HashSet<>());
 
         //when
         Throwable throwable = catchThrowable(() -> personService.findByName(name));

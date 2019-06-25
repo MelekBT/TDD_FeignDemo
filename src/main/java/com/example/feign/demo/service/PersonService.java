@@ -1,10 +1,13 @@
 package com.example.feign.demo.service;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 
 import com.example.feign.demo.model.Person;
 import com.example.feign.demo.repository.PersonRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -17,18 +20,12 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public Person findByName(String name) {
-        return personRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException(String.format(NOT_FOUND_EXCEPTION, name)));
-        /*
-        Optional<Person> personOptional = personRepository.findByName(name);
-        if (personOptional.isPresent()) {
-            return personOptional.get();
+    public Set<Person> findByName(String name) {
+        Set<Person> persons = personRepository.findByName(name);
+        if (CollectionUtils.isEmpty(persons)) {
+            throw new RuntimeException(String.format(NOT_FOUND_EXCEPTION,name));
         }
 
-        throw new RuntimeException(String.format(NOT_FOUND_EXCEPTION, name));
-
-         */
-
+        return persons;
     }
 }

@@ -1,23 +1,9 @@
-package com.example.feign.demo.model;
+package com.example.feign.demo.model.response;
 
-public class Person {
+public class PersonDTO {
 
-    private Long id;
     private String name;
     private String surname;
-
-    public Person(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
