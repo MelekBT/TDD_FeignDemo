@@ -1,5 +1,8 @@
 package com.example.feign.demo.model;
 
+import java.util.Objects;
+import java.util.Optional;
+
 public class Person {
 
     private Long id;
@@ -33,5 +36,21 @@ public class Person {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Optional.ofNullable(id).orElse(0L)
+                .equals(Optional.ofNullable(person.id).orElse(0L)) &&
+                name.equals(person.name) &&
+                surname.equals(person.surname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname);
     }
 }

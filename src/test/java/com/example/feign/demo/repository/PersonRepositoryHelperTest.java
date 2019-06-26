@@ -4,14 +4,18 @@ import com.example.feign.demo.model.Person;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(SpringJUnit4ClassRunner.class)
 public class PersonRepositoryHelperTest {
 
-    @AfterEach
+    @After
     public void tearDown() {
         PersonRepositoryHelper.getInstance().clear();
     }
@@ -52,7 +56,7 @@ public class PersonRepositoryHelperTest {
     }
 
     @Test
-    public void it_should_get_empty_set_for_nonexisting_name() {
+    public void it_should_get_empty_set__when_name_does_not_exist() {
         //given
         String name = "Meleksu";
 
@@ -73,5 +77,18 @@ public class PersonRepositoryHelperTest {
 
         //then
         assertThat(person).isNull();
+    }
+
+    @Test
+    public void it_should_add_person(){
+        //given
+        Person person = new Person("Cenk","Çivici");
+
+        //when
+        PersonRepositoryHelper.getInstance().addPerson(person);
+
+        //then
+        assertThat(PersonRepositoryHelper.getInstance().getPersons()).hasSize(1);
+        assertThat(PersonRepositoryHelper.getInstance().getPersons()).contains(person);
     }
 }

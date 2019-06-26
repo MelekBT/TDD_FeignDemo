@@ -4,9 +4,9 @@ import com.example.feign.demo.model.Person;
 import com.example.feign.demo.model.response.PersonDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class PersonDTOConverter implements Function<Person, PersonDTO> {
@@ -18,12 +18,9 @@ public class PersonDTOConverter implements Function<Person, PersonDTO> {
         personDTO.setSurname(person.getSurname());
         return personDTO;
     }
-    public Set<PersonDTO> applySet(Set<Person> persons){
-        Set<PersonDTO> personSet = new HashSet<>();
-        for(Person person : persons){
-            personSet.add(this.apply(person));
-        }
-        return personSet;
+
+    public Set<PersonDTO> applySet(Set<Person> persons) {
+        return persons.stream().map(this).collect(Collectors.toSet());
     }
 
 }

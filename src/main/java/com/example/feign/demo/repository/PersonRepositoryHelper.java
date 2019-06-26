@@ -12,6 +12,14 @@ public class PersonRepositoryHelper {
     private AtomicLong personObjectIndex = new AtomicLong(0L);
     private List<Person> persons = new ArrayList<>();
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
     private static PersonRepositoryHelper instance;
 
     private PersonRepositoryHelper() {
@@ -24,6 +32,7 @@ public class PersonRepositoryHelper {
     }
 
     public void clear() {
+        this.personObjectIndex = new AtomicLong(0L);
         this.persons.clear();
     }
 

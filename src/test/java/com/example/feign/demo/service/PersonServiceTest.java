@@ -1,10 +1,15 @@
 package com.example.feign.demo.service;
 
+import com.example.feign.demo.exceptions.DomainNotFoundException;
 import com.example.feign.demo.model.Person;
+import com.example.feign.demo.model.builder.PersonDTOBuilder;
+import com.example.feign.demo.model.request.PersonCreateRequest;
+import com.example.feign.demo.model.response.PersonDTO;
 import com.example.feign.demo.repository.PersonRepository;
 import com.example.feign.demo.repository.PersonRepositoryHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.util.collections.Sets;
@@ -55,8 +60,62 @@ public class PersonServiceTest {
         Throwable throwable = catchThrowable(() -> personService.findByName(name));
 
         //then
-        assertThat(throwable).isInstanceOf(RuntimeException.class);
-        RuntimeException exception = (RuntimeException) throwable;
+        assertThat(throwable).isInstanceOf(DomainNotFoundException.class);
+        DomainNotFoundException exception = (DomainNotFoundException) throwable;
         assertThat(exception.getMessage()).isEqualTo("Irem not found");
+    }
+
+    @Test
+    public void it_should_return_person_by_id(){
+        //given
+        Long id=2L;
+
+        Person person = new Person("Melek","Tamtürk");
+        person.setId(2L);
+        when(personRepository.findById(id)).thenReturn(Optional.of(person));
+
+        //when
+        Person actualPerson = personService.findById(id);
+
+        //then
+        verify(personRepository).findById(id);
+        assertThat(actualPerson.getId()).isEqualTo(id);
+        assertThat(actualPerson.getName()).isEqualTo("Melek");
+        assertThat(actualPerson.getSurname()).isEqualTo("Tamtürk");
+
+    }
+
+    @Test
+    public void it_should_throw_exception_when_id_does_not_exist(){
+        //given
+        Long id=-1L;
+
+        when(personRepository.findById(id)).thenReturn(Optional.empty());
+
+        //when
+        Throwable throwable = catchThrowable(() -> personService.findById(id));
+
+        //then
+        assertThat(throwable).isInstanceOf(DomainNotFoundException.class);
+        DomainNotFoundException domainNotFoundException = (DomainNotFoundException) throwable;
+        assertThat(domainNotFoundException.getMessage()).isEqualTo("This person with id "+ id+" not found");
+    }
+
+    @Test
+    public void  it_should_create_person_with_personDTO(){
+        //given
+        PersonCreateRequest personCreateRequest = new PersonCreateRequest();
+        personCreateRequest.setName("İrem");
+        personCreateRequest.setSurname("Tamtürk");
+
+        //when
+        personService.createPerson(personCreateRequest);
+
+        //then
+        ArgumentCaptor<Person> personArgumentCaptor = ArgumentCaptor.forClass(Person.class);
+        verify(personRepository).save(personArgumentCaptor.capture());
+        Person capturedPerson = personArgumentCaptor.getValue();
+        assertThat(capturedPerson.getName()).isEqualTo("İrem");
+        assertThat(capturedPerson.getSurname()).isEqualTo("Tamtürk");
     }
 }

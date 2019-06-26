@@ -16,4 +16,7 @@ public class PersonRepository {
     public Optional<Person> findById(Long id) {
         return Optional.ofNullable(PersonRepositoryHelper.getInstance().findById(id));
     }
+    public void save(Person person){
+        PersonRepositoryHelper.getInstance().addPerson(person);
+    }
 }
