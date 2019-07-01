@@ -19,8 +19,8 @@ public class PersonDTOConverterTest {
     @InjectMocks
     PersonDTOConverter personDTOConverter;
 
-    @Test
-    public void it_should_convert_person_to_person_dto() {
+   // @Test
+  /*  public void it_should_convert_person_to_person_dto() {
         //given
         Person person = new Person("Melek","Tamtürk");
 
@@ -51,5 +51,5 @@ public class PersonDTOConverterTest {
         PersonDTO personDTO2 = iterator.next();
         assertThat(personDTO2.getName()).isEqualTo("name2");
         assertThat(personDTO2.getSurname()).isEqualTo("surname2");
-    }
+    }*/
 }

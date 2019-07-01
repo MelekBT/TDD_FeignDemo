@@ -3,9 +3,7 @@ package com.example.feign.demo.repository;
 import com.example.feign.demo.model.Person;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Set;

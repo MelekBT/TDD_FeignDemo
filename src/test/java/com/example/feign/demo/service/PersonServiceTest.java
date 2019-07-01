@@ -2,11 +2,8 @@ package com.example.feign.demo.service;
 
 import com.example.feign.demo.exceptions.DomainNotFoundException;
 import com.example.feign.demo.model.Person;
-import com.example.feign.demo.model.builder.PersonDTOBuilder;
 import com.example.feign.demo.model.request.PersonCreateRequest;
-import com.example.feign.demo.model.response.PersonDTO;
 import com.example.feign.demo.repository.PersonRepository;
-import com.example.feign.demo.repository.PersonRepositoryHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -21,7 +18,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PersonServiceTest {

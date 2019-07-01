@@ -4,10 +4,10 @@ import javax.validation.constraints.NotBlank;
 
 public class PersonCreateRequest {
 
-    @NotBlank(message = "person.api.person.create.request.name.is.blank")
+    @NotBlank(message = "{person.api.person.create.request.name.is.blank}")
     private String name;
 
-    @NotBlank(message = "person.api.person.create.request.surnname.is.blank")
+    @NotBlank(message = "{person.api.person.create.request.surname.is.blank}")
     private String surname;
 
     public String getName() {

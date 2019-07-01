@@ -7,17 +7,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(PersonRepositoryHelper.class)
+@RunWith(MockitoJUnitRunner.class)
+//@PrepareForTest(PersonRepositoryHelper.class)
 public class PersonRepositoryTest {
 
     @InjectMocks
